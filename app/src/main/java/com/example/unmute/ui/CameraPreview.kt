@@ -21,6 +21,7 @@ fun CameraPreview(
 ) {
     val context = LocalContext.current
     val lifecycleOwner = LocalLifecycleOwner.current
+    val frameIntervalMs = 500 // Frame per milliseconds
 
     AndroidView(
         factory = { ctx ->
@@ -42,7 +43,7 @@ fun CameraPreview(
 
                 imageAnalyzer.setAnalyzer(ContextCompat.getMainExecutor(ctx)) { imageProxy ->
                     val currentTime = System.currentTimeMillis()
-                    if (currentTime - lastTimestamp >= 1000) {
+                    if (currentTime - lastTimestamp >= frameIntervalMs) {
                         lastTimestamp = currentTime
 
                         val bitmap = imageProxy.toBitmap()
