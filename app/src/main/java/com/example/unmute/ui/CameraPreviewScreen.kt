@@ -42,13 +42,14 @@ fun CameraPreviewScreen() {
     var subtitleText by remember { mutableStateOf("") }
     var isSpeaking by remember { mutableStateOf(false) }
 
-    val cameraPermissionState = rememberLauncherForActivityResult(
-        contract = ActivityResultContracts.RequestPermission()
-    ) { isGranted ->
-        if (!isGranted) {
-            Toast.makeText(context, "Camera permission denied", Toast.LENGTH_LONG).show()
+    val cameraPermissionState =
+        rememberLauncherForActivityResult(
+            contract = ActivityResultContracts.RequestPermission(),
+        ) { isGranted ->
+            if (!isGranted) {
+                Toast.makeText(context, "Camera permission denied", Toast.LENGTH_LONG).show()
+            }
         }
-    }
 
     // Initialize TTS once
     LaunchedEffect(Unit) {
@@ -59,16 +60,17 @@ fun CameraPreviewScreen() {
         }
 
         if (ttsRef.value == null) {
-            ttsRef.value = TextToSpeech(context) { status ->
-                if (status == TextToSpeech.SUCCESS) {
-                    val result = ttsRef.value?.setLanguage(Locale.US)
-                    if (result == TextToSpeech.LANG_MISSING_DATA || result == TextToSpeech.LANG_NOT_SUPPORTED) {
-                        Toast.makeText(context, "US English not supported", Toast.LENGTH_SHORT).show()
+            ttsRef.value =
+                TextToSpeech(context) { status ->
+                    if (status == TextToSpeech.SUCCESS) {
+                        val result = ttsRef.value?.setLanguage(Locale.US)
+                        if (result == TextToSpeech.LANG_MISSING_DATA || result == TextToSpeech.LANG_NOT_SUPPORTED) {
+                            Toast.makeText(context, "US English not supported", Toast.LENGTH_SHORT).show()
+                        }
+                    } else {
+                        Toast.makeText(context, "TTS initialization failed", Toast.LENGTH_SHORT).show()
                     }
-                } else {
-                    Toast.makeText(context, "TTS initialization failed", Toast.LENGTH_SHORT).show()
                 }
-            }
         }
     }
 
@@ -94,21 +96,24 @@ fun CameraPreviewScreen() {
                         }
                     }
                 }
-            }
+            },
         )
 
         // Subtitle overlay
-        Box(
-            modifier = Modifier
-                .align(Alignment.BottomCenter)
-                .background(Color.Black.copy(alpha = 0.6f), RoundedCornerShape(8.dp))
-                .padding(8.dp)
-        ) {
-            Text(
-                text = subtitleText,
-                color = Color.White,
-                fontSize = 20.sp
-            )
+        if (subtitleText != "") {
+            Box(
+                modifier =
+                    Modifier
+                        .align(Alignment.BottomCenter)
+                        .background(Color.Black.copy(alpha = 0.6f), RoundedCornerShape(8.dp))
+                        .padding(8.dp),
+            ) {
+                Text(
+                    text = subtitleText,
+                    color = Color.White,
+                    fontSize = 20.sp,
+                )
+            }
         }
     }
 }

@@ -37,7 +37,7 @@ class MainActivity : ComponentActivity(), TextToSpeech.OnInitListener {
             UnmuteTheme {
                 Surface(
                     modifier = Modifier.fillMaxSize(),
-                    color = MaterialTheme.colorScheme.background
+                    color = MaterialTheme.colorScheme.background,
                 ) {
                     val navController = rememberNavController()
 
@@ -92,5 +92,3 @@ fun ImageProxy.toBitmap(): Bitmap {
     val jpegBytes = out.toByteArray()
     return BitmapFactory.decodeByteArray(jpegBytes, 0, jpegBytes.size)
 }
-
-

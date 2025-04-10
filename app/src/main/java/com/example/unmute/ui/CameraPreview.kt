@@ -17,7 +17,7 @@ import androidx.lifecycle.compose.LocalLifecycleOwner
 @Composable
 fun CameraPreview(
     modifier: Modifier = Modifier,
-    onFrameCaptured: (Bitmap) -> Unit = {}
+    onFrameCaptured: (Bitmap) -> Unit = {},
 ) {
     val context = LocalContext.current
     val lifecycleOwner = LocalLifecycleOwner.current
@@ -31,13 +31,15 @@ fun CameraPreview(
             cameraProviderFuture.addListener({
                 val cameraProvider = cameraProviderFuture.get()
 
-                val preview = Preview.Builder().build().also {
-                    it.setSurfaceProvider(previewView.surfaceProvider)
-                }
+                val preview =
+                    Preview.Builder().build().also {
+                        it.setSurfaceProvider(previewView.surfaceProvider)
+                    }
 
-                val imageAnalyzer = ImageAnalysis.Builder()
-                    .setBackpressureStrategy(ImageAnalysis.STRATEGY_KEEP_ONLY_LATEST)
-                    .build()
+                val imageAnalyzer =
+                    ImageAnalysis.Builder()
+                        .setBackpressureStrategy(ImageAnalysis.STRATEGY_KEEP_ONLY_LATEST)
+                        .build()
 
                 var lastTimestamp = 0L
 
@@ -53,9 +55,10 @@ fun CameraPreview(
                     imageProxy.close()
                 }
 
-                val cameraSelector = CameraSelector.Builder()
-                    .requireLensFacing(CameraSelector.LENS_FACING_FRONT)
-                    .build()
+                val cameraSelector =
+                    CameraSelector.Builder()
+                        .requireLensFacing(CameraSelector.LENS_FACING_FRONT)
+                        .build()
 
                 try {
                     cameraProvider.unbindAll()
@@ -63,7 +66,7 @@ fun CameraPreview(
                         lifecycleOwner,
                         cameraSelector,
                         preview,
-                        imageAnalyzer
+                        imageAnalyzer,
                     )
                 } catch (e: Exception) {
                     Log.e("CameraX", "Camera binding failed", e)
@@ -72,6 +75,6 @@ fun CameraPreview(
 
             previewView
         },
-        modifier = modifier
+        modifier = modifier,
     )
 }

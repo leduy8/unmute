@@ -3,6 +3,13 @@ plugins {
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
     kotlin("plugin.serialization") version "2.0.21"
+    id("org.jlleitschuh.gradle.ktlint") version "11.6.0"
+}
+
+ktlint {
+    version.set("1.2.1") // or latest
+    android.set(true) // recommended for Android projects
+    outputColorName.set("RED")
 }
 
 android {
@@ -24,7 +31,7 @@ android {
             isMinifyEnabled = false
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
+                "proguard-rules.pro",
             )
         }
     }
