@@ -24,6 +24,7 @@ fun speakText(tts: TextToSpeech, text: String, onDone: () -> Unit) {
 }
 
 
+//*** Deprecated
 fun mockLLM(bitmap: Bitmap): String {
     // In real case, send frame to LLM
     Log.e("CameraFrame", "Current bitmap is $bitmap")

@@ -3,6 +3,7 @@ package com.example.unmute.ui
 import android.Manifest
 import android.content.pm.PackageManager
 import android.speech.tts.TextToSpeech
+import android.util.Log
 import android.widget.Toast
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
@@ -17,6 +18,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -25,14 +27,16 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.content.ContextCompat
-import com.example.unmute.mockLLM
+import com.example.unmute.sendImageToLLMServer
 import com.example.unmute.speakText
+import kotlinx.coroutines.launch
 import java.util.Locale
 
 @Composable
 fun CameraPreviewScreen() {
     val context = LocalContext.current
     val cameraPermission = Manifest.permission.CAMERA
+    val coroutineScope = rememberCoroutineScope()
 
     val ttsRef = remember { mutableStateOf<TextToSpeech?>(null) }
     var subtitleText by remember { mutableStateOf("") }
@@ -73,12 +77,21 @@ fun CameraPreviewScreen() {
             modifier = Modifier.fillMaxSize(),
             onFrameCaptured = { bitmap ->
                 if (!isSpeaking && ttsRef.value != null) {
-
-                    val mockedSentence = mockLLM(bitmap)
-                    subtitleText = mockedSentence
-                    isSpeaking = true
-                    speakText(ttsRef.value!!, mockedSentence) {
-                        isSpeaking = false
+                    coroutineScope.launch {
+                        try {
+                            val resultText = sendImageToLLMServer(bitmap)
+                            if (resultText != null) {
+                                subtitleText = resultText
+                                isSpeaking = true
+                                speakText(ttsRef.value!!, resultText) {
+                                    isSpeaking = false
+                                }
+                            }
+                        } catch (e: Exception) {
+                            // subtitleText = "Error: ${e.message}"
+                            Log.e("API Call", "API call failed", e)
+                            isSpeaking = false
+                        }
                     }
                 }
             }
