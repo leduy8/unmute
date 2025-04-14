@@ -21,7 +21,8 @@ import androidx.navigation.compose.rememberNavController
 import com.example.unmute.navigation.Screen
 import com.example.unmute.theme.UnmuteTheme
 import com.example.unmute.ui.CameraPreviewScreen
-import com.example.unmute.ui.HomeScreen
+import com.example.unmute.ui.GreetingScreen
+import com.example.unmute.ui.SignInScreen
 import java.io.ByteArrayOutputStream
 import java.util.Locale
 
@@ -41,11 +42,12 @@ class MainActivity : ComponentActivity(), TextToSpeech.OnInitListener {
                 ) {
                     val navController = rememberNavController()
 
-                    NavHost(navController = navController, startDestination = Screen.Home.route) {
-                        composable(Screen.Home.route) {
-                            HomeScreen {
-                                navController.navigate(Screen.Camera.route)
-                            }
+                    NavHost(navController = navController, startDestination = Screen.SignIn.route) {
+                        composable(Screen.SignIn.route) {
+                            SignInScreen(navController)
+                        }
+                        composable(Screen.Greeting.route) {
+                            GreetingScreen(navController)
                         }
                         composable(Screen.Camera.route) {
                             CameraPreviewScreen()
