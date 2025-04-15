@@ -16,23 +16,17 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.AccountCircle
-import androidx.compose.material.icons.filled.Create
-import androidx.compose.material.icons.filled.Face
-import androidx.compose.material.icons.filled.Person
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Divider
-import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -78,22 +72,22 @@ fun GreetingScreen(navController: NavHostController) {
 
             // Feature Cards
             FeatureCard(
-                icon = Icons.Default.Create,
+                iconPainter = painterResource(id = R.drawable.sign_to_speech),
                 title = "Sign to Speech",
                 subtitle = "Translate sign gestures into natural-sounding speech"
             )
             FeatureCard(
-                icon = Icons.Default.Person,
+                iconPainter = painterResource(id = R.drawable.speech_to_text),
                 title = "Speech to Text",
                 subtitle = "Convert speech into readable text"
             )
             FeatureCard(
-                icon = Icons.Default.AccountCircle,
+                iconPainter = painterResource(id = R.drawable.isolation),
                 title = "Speech Isolation",
                 subtitle = "Filter background noise for clearer communication"
             )
             FeatureCard(
-                icon = Icons.Default.Face,
+                iconPainter = painterResource(id = R.drawable.emoji_smile),
                 title = "Facial Expression Recognition",
                 subtitle = "Capture emotional context for enhanced understanding"
             )
@@ -119,7 +113,7 @@ fun GreetingScreen(navController: NavHostController) {
 }
 
 @Composable
-fun FeatureCard(icon: ImageVector, title: String, subtitle: String) {
+fun FeatureCard(iconPainter: Painter, title: String, subtitle: String) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
@@ -133,10 +127,9 @@ fun FeatureCard(icon: ImageVector, title: String, subtitle: String) {
                 .fillMaxWidth(),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Icon(
-                imageVector = icon,
+            Image(
+                painter = iconPainter,
                 contentDescription = null,
-                tint = Color.Unspecified,
                 modifier = Modifier.size(36.dp)
             )
 
