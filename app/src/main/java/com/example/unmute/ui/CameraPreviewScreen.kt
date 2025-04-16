@@ -7,10 +7,15 @@ import android.util.Log
 import android.widget.Toast
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.statusBarsPadding
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -22,18 +27,22 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.content.ContextCompat
+import androidx.navigation.NavHostController
+import com.example.unmute.R
 import com.example.unmute.sendImageToLLMServer
 import com.example.unmute.speakText
 import kotlinx.coroutines.launch
 import java.util.Locale
 
 @Composable
-fun CameraPreviewScreen() {
+fun CameraPreviewScreen(navController: NavHostController) {
     val context = LocalContext.current
     val cameraPermission = Manifest.permission.CAMERA
     val coroutineScope = rememberCoroutineScope()
@@ -74,7 +83,10 @@ fun CameraPreviewScreen() {
         }
     }
 
+    val logoPainter = painterResource(id = R.drawable.hope_logo)
+
     Box(modifier = Modifier.fillMaxSize()) {
+        // Camera preview in the back
         CameraPreview(
             modifier = Modifier.fillMaxSize(),
             onFrameCaptured = { bitmap ->
@@ -99,19 +111,55 @@ fun CameraPreviewScreen() {
             },
         )
 
-        // Subtitle overlay
-        if (subtitleText != "") {
-            Box(
-                modifier =
-                    Modifier
+        // UI overlays
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .statusBarsPadding()
+        ) {
+            // Logo at the top
+            Image(
+                painter = logoPainter,
+                contentDescription = "Hope Logo",
+                modifier = Modifier
+                    .align(Alignment.TopCenter)
+                    .size(56.dp)
+                    .clip(CircleShape)
+            )
+
+            // Subtitle box above the red button
+            if (subtitleText.isNotEmpty()) {
+                Box(
+                    modifier = Modifier
                         .align(Alignment.BottomCenter)
+                        .padding(start = 24.dp, end = 24.dp, bottom = 96.dp) // <--- Outer padding
                         .background(Color.Black.copy(alpha = 0.6f), RoundedCornerShape(8.dp))
-                        .padding(8.dp),
+                        .padding(horizontal = 16.dp, vertical = 12.dp) // <--- Inner padding
+                ) {
+                    Text(
+                        text = subtitleText,
+                        color = Color.White,
+                        fontSize = 20.sp
+                    )
+                }
+            }
+
+            // Red "X" button, pushed up from the bottom
+            Box(
+                modifier = Modifier
+                    .align(Alignment.BottomCenter)
+                    .padding(bottom = 24.dp)
+                    .size(64.dp)
+                    .background(Color.Red, shape = RoundedCornerShape(50))
+                    .clickable {
+                        navController.popBackStack()
+                    },
+                contentAlignment = Alignment.Center
             ) {
                 Text(
-                    text = subtitleText,
+                    text = "✕",
                     color = Color.White,
-                    fontSize = 20.sp,
+                    fontSize = 28.sp
                 )
             }
         }

@@ -50,7 +50,7 @@ class MainActivity : ComponentActivity(), TextToSpeech.OnInitListener {
                             GreetingScreen(navController)
                         }
                         composable(Screen.Camera.route) {
-                            CameraPreviewScreen()
+                            CameraPreviewScreen(navController)
                         }
                     }
                 }
