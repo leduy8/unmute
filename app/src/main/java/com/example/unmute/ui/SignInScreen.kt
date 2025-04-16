@@ -55,7 +55,7 @@ fun SignInScreen(navController: NavHostController) {
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(Color(0xFFF5FAF7)), // soft background
+            .background(Color(0xFFFFFFFF)), // soft background, white
         contentAlignment = Alignment.Center
     ) {
         Column(
