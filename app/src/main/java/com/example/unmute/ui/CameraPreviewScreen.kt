@@ -113,53 +113,57 @@ fun CameraPreviewScreen(navController: NavHostController) {
 
         // UI overlays
         Box(
-            modifier = Modifier
-                .fillMaxSize()
-                .statusBarsPadding()
+            modifier =
+                Modifier
+                    .fillMaxSize()
+                    .statusBarsPadding(),
         ) {
             // Logo at the top
             Image(
                 painter = logoPainter,
                 contentDescription = "Hope Logo",
-                modifier = Modifier
-                    .align(Alignment.TopCenter)
-                    .size(56.dp)
-                    .clip(CircleShape)
+                modifier =
+                    Modifier
+                        .align(Alignment.TopCenter)
+                        .size(56.dp)
+                        .clip(CircleShape),
             )
 
             // Subtitle box above the red button
             if (subtitleText.isNotEmpty()) {
                 Box(
-                    modifier = Modifier
-                        .align(Alignment.BottomCenter)
-                        .padding(start = 24.dp, end = 24.dp, bottom = 96.dp) // <--- Outer padding
-                        .background(Color.Black.copy(alpha = 0.6f), RoundedCornerShape(8.dp))
-                        .padding(horizontal = 16.dp, vertical = 12.dp) // <--- Inner padding
+                    modifier =
+                        Modifier
+                            .align(Alignment.BottomCenter)
+                            .padding(start = 24.dp, end = 24.dp, bottom = 96.dp) // <--- Outer padding
+                            .background(Color.Black.copy(alpha = 0.6f), RoundedCornerShape(8.dp))
+                            .padding(horizontal = 16.dp, vertical = 12.dp), // <--- Inner padding
                 ) {
                     Text(
                         text = subtitleText,
                         color = Color.White,
-                        fontSize = 20.sp
+                        fontSize = 20.sp,
                     )
                 }
             }
 
             // Red "X" button, pushed up from the bottom
             Box(
-                modifier = Modifier
-                    .align(Alignment.BottomCenter)
-                    .padding(bottom = 24.dp)
-                    .size(64.dp)
-                    .background(Color.Red, shape = RoundedCornerShape(50))
-                    .clickable {
-                        navController.popBackStack()
-                    },
-                contentAlignment = Alignment.Center
+                modifier =
+                    Modifier
+                        .align(Alignment.BottomCenter)
+                        .padding(bottom = 24.dp)
+                        .size(64.dp)
+                        .background(Color.Red, shape = RoundedCornerShape(50))
+                        .clickable {
+                            navController.popBackStack()
+                        },
+                contentAlignment = Alignment.Center,
             ) {
                 Text(
                     text = "✕",
                     color = Color.White,
-                    fontSize = 28.sp
+                    fontSize = 28.sp,
                 )
             }
         }

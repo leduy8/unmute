@@ -40,24 +40,27 @@ fun GreetingScreen(navController: NavHostController) {
     val imagePainter = painterResource(id = R.drawable.hope_logo)
 
     Box(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(horizontal = 24.dp)
+        modifier =
+            Modifier
+                .fillMaxSize()
+                .padding(horizontal = 24.dp),
     ) {
         Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .verticalScroll(rememberScrollState())
-                .statusBarsPadding(),
-            horizontalAlignment = Alignment.CenterHorizontally
+            modifier =
+                Modifier
+                    .fillMaxSize()
+                    .verticalScroll(rememberScrollState())
+                    .statusBarsPadding(),
+            horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             // Logo + Divider
             Image(
                 painter = imagePainter,
                 contentDescription = "Hope Logo",
-                modifier = Modifier
-                    .size(56.dp)
-                    .clip(CircleShape)
+                modifier =
+                    Modifier
+                        .size(56.dp)
+                        .clip(CircleShape),
             )
 
             Spacer(modifier = Modifier.height(16.dp))
@@ -65,7 +68,7 @@ fun GreetingScreen(navController: NavHostController) {
             Divider(
                 color = Color.LightGray,
                 thickness = 1.dp,
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier.fillMaxWidth(),
             )
 
             Spacer(modifier = Modifier.height(24.dp))
@@ -74,22 +77,22 @@ fun GreetingScreen(navController: NavHostController) {
             FeatureCard(
                 iconPainter = painterResource(id = R.drawable.sign_to_speech),
                 title = "Sign to Speech",
-                subtitle = "Translate sign gestures into natural-sounding speech"
+                subtitle = "Translate sign gestures into natural-sounding speech",
             )
             FeatureCard(
                 iconPainter = painterResource(id = R.drawable.speech_to_text),
                 title = "Speech to Text",
-                subtitle = "Convert speech into readable text"
+                subtitle = "Convert speech into readable text",
             )
             FeatureCard(
                 iconPainter = painterResource(id = R.drawable.isolation),
                 title = "Speech Isolation",
-                subtitle = "Filter background noise for clearer communication"
+                subtitle = "Filter background noise for clearer communication",
             )
             FeatureCard(
                 iconPainter = painterResource(id = R.drawable.emoji_smile),
                 title = "Facial Expression Recognition",
-                subtitle = "Capture emotional context for enhanced understanding"
+                subtitle = "Capture emotional context for enhanced understanding",
             )
 
             Spacer(modifier = Modifier.height(24.dp))
@@ -99,10 +102,11 @@ fun GreetingScreen(navController: NavHostController) {
 
             Button(
                 onClick = { navController.navigate(Screen.Camera.route) },
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(50.dp),
-                shape = RoundedCornerShape(8.dp)
+                modifier =
+                    Modifier
+                        .fillMaxWidth()
+                        .height(50.dp),
+                shape = RoundedCornerShape(8.dp),
             ) {
                 Text(text = "Start Signing →", fontSize = 16.sp)
             }
@@ -113,24 +117,30 @@ fun GreetingScreen(navController: NavHostController) {
 }
 
 @Composable
-fun FeatureCard(iconPainter: Painter, title: String, subtitle: String) {
+fun FeatureCard(
+    iconPainter: Painter,
+    title: String,
+    subtitle: String,
+) {
     Card(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(vertical = 6.dp),
+        modifier =
+            Modifier
+                .fillMaxWidth()
+                .padding(vertical = 6.dp),
         colors = CardDefaults.cardColors(containerColor = Color(0xFFF5F9FF)),
-        shape = RoundedCornerShape(12.dp)
+        shape = RoundedCornerShape(12.dp),
     ) {
         Row(
-            modifier = Modifier
-                .padding(16.dp)
-                .fillMaxWidth(),
-            verticalAlignment = Alignment.CenterVertically
+            modifier =
+                Modifier
+                    .padding(16.dp)
+                    .fillMaxWidth(),
+            verticalAlignment = Alignment.CenterVertically,
         ) {
             Image(
                 painter = iconPainter,
                 contentDescription = null,
-                modifier = Modifier.size(36.dp)
+                modifier = Modifier.size(36.dp),
             )
 
             Spacer(modifier = Modifier.width(12.dp))
@@ -139,15 +149,14 @@ fun FeatureCard(iconPainter: Painter, title: String, subtitle: String) {
                 Text(
                     text = title,
                     fontWeight = FontWeight.Bold,
-                    fontSize = 16.sp
+                    fontSize = 16.sp,
                 )
                 Text(
                     text = subtitle,
                     fontSize = 14.sp,
-                    color = Color.Gray
+                    color = Color.Gray,
                 )
             }
         }
     }
 }
-

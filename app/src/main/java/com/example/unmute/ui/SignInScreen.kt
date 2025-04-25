@@ -53,25 +53,29 @@ fun SignInScreen(navController: NavHostController) {
     var password by remember { mutableStateOf("") }
 
     Box(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(Color(0xFFFFFFFF)), // soft background, white
-        contentAlignment = Alignment.Center
+        modifier =
+            Modifier
+                .fillMaxSize()
+                .background(Color(0xFFFFFFFF)),
+        // soft background, white
+        contentAlignment = Alignment.Center,
     ) {
         Column(
-            modifier = Modifier
-                .padding(24.dp)
-                .background(Color.White, RoundedCornerShape(16.dp))
-                .padding(24.dp)
-                .fillMaxWidth(0.9f),
-            horizontalAlignment = Alignment.CenterHorizontally
+            modifier =
+                Modifier
+                    .padding(24.dp)
+                    .background(Color.White, RoundedCornerShape(16.dp))
+                    .padding(24.dp)
+                    .fillMaxWidth(0.9f),
+            horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             Image(
                 painter = painterResource(id = R.drawable.hope_logo),
                 contentDescription = "App Logo",
-                modifier = Modifier
-                    .size(48.dp)
-                    .clip(CircleShape)
+                modifier =
+                    Modifier
+                        .size(48.dp)
+                        .clip(CircleShape),
             )
 
             Spacer(modifier = Modifier.height(16.dp))
@@ -83,12 +87,12 @@ fun SignInScreen(navController: NavHostController) {
             Text(
                 text = "Welcome to Hope",
                 fontWeight = FontWeight.Bold,
-                fontSize = 24.sp
+                fontSize = 24.sp,
             )
             Text(
                 text = "Hope gives voice to silence",
                 color = Color.Gray,
-                fontSize = 14.sp
+                fontSize = 14.sp,
             )
 
             Spacer(modifier = Modifier.height(24.dp))
@@ -102,7 +106,7 @@ fun SignInScreen(navController: NavHostController) {
                     Icon(Icons.Default.Person, contentDescription = null)
                 },
                 singleLine = true,
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier.fillMaxWidth(),
             )
 
             Spacer(modifier = Modifier.height(16.dp))
@@ -117,20 +121,21 @@ fun SignInScreen(navController: NavHostController) {
                 },
                 singleLine = true,
                 visualTransformation = PasswordVisualTransformation(),
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier.fillMaxWidth(),
             )
 
             Spacer(modifier = Modifier.height(24.dp))
 
             Button(
                 onClick = {
-                    /* TODO: handle login later */
+                    // TODO: handle login later
                     Log.e("SignInScreen", "Login button clicked")
                     navController.navigate(Screen.Greeting.route)
                 },
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(50.dp)
+                modifier =
+                    Modifier
+                        .fillMaxWidth()
+                        .height(50.dp),
             ) {
                 Text("Login →")
             }
@@ -139,13 +144,13 @@ fun SignInScreen(navController: NavHostController) {
 
             SignInFooter(
                 onForgotPasswordClick = {
-                    /* Navigate to Forgot Password */
+                    // Navigate to Forgot Password
                     Log.e("SignInScreen", "Forgot Password button clicked")
                 },
                 onSignUpClick = {
-                    /* Navigate to Sign Up */
+                    // Navigate to Sign Up
                     Log.e("SignInScreen", "Sign Up button clicked")
-                }
+                },
             )
         }
     }
@@ -154,21 +159,22 @@ fun SignInScreen(navController: NavHostController) {
 @Composable
 fun SignInFooter(
     onForgotPasswordClick: () -> Unit,
-    onSignUpClick: () -> Unit
+    onSignUpClick: () -> Unit,
 ) {
     Column(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(top = 16.dp),
+        modifier =
+            Modifier
+                .fillMaxWidth()
+                .padding(top = 16.dp),
         verticalArrangement = Arrangement.spacedBy(8.dp),
-        horizontalAlignment = Alignment.CenterHorizontally
+        horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         // Forgot password button
         TextButton(onClick = onForgotPasswordClick) {
             Text(
                 text = "Forgot password?",
                 color = MaterialTheme.colorScheme.primary,
-                fontSize = 14.sp
+                fontSize = 14.sp,
             )
         }
         SignUpPrompt(onSignUpClick = onSignUpClick)
@@ -177,23 +183,25 @@ fun SignInFooter(
 
 @Composable
 fun SignUpPrompt(onSignUpClick: () -> Unit) {
-    val annotatedText = buildAnnotatedString {
-        withStyle(style = SpanStyle(color = Color.Gray, fontSize = 14.sp)) {
-            append("Don't have an account? ")
+    val annotatedText =
+        buildAnnotatedString {
+            withStyle(style = SpanStyle(color = Color.Gray, fontSize = 14.sp)) {
+                append("Don't have an account? ")
+            }
+            pushStringAnnotation(tag = "SIGN_UP", annotation = "sign_up")
+            withStyle(
+                style =
+                    SpanStyle(
+                        color = Color(0xFF1A237E), // Darker blue
+                        fontWeight = FontWeight.Medium,
+                        fontSize = 14.sp,
+                        textDecoration = TextDecoration.None,
+                    ),
+            ) {
+                append("Sign up")
+            }
+            pop()
         }
-        pushStringAnnotation(tag = "SIGN_UP", annotation = "sign_up")
-        withStyle(
-            style = SpanStyle(
-                color = Color(0xFF1A237E), // Darker blue
-                fontWeight = FontWeight.Medium,
-                fontSize = 14.sp,
-                textDecoration = TextDecoration.None
-            )
-        ) {
-            append("Sign up")
-        }
-        pop()
-    }
 
     ClickableText(
         text = annotatedText,
@@ -201,6 +209,6 @@ fun SignUpPrompt(onSignUpClick: () -> Unit) {
             annotatedText.getStringAnnotations("SIGN_UP", start = offset, end = offset)
                 .firstOrNull()?.let { onSignUpClick() }
         },
-        modifier = Modifier
+        modifier = Modifier,
     )
 }
