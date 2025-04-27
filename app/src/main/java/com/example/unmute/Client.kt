@@ -16,7 +16,9 @@ import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
 import java.io.ByteArrayOutputStream
 
-const val SERVER_URL = "https://c917-193-205-210-76.ngrok-free.app/process_frame"
+// Call local for server in same host machine
+// If calling to other machine, check for its IP address
+const val SERVER_URL = "http://10.0.2.2:5000/process_frame"
 
 @Serializable
 data class LLMResponse(
