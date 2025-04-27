@@ -36,9 +36,12 @@ import androidx.compose.ui.unit.sp
 import androidx.core.content.ContextCompat
 import androidx.navigation.NavHostController
 import com.example.unmute.R
+import com.example.unmute.convertBitmapToBase64
 import com.example.unmute.sendImageToLLMServer
 import com.example.unmute.speakText
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.util.Locale
 
 @Composable
@@ -93,11 +96,17 @@ fun CameraPreviewScreen(navController: NavHostController) {
                 if (!isSpeaking && ttsRef.value != null) {
                     coroutineScope.launch {
                         try {
-                            val resultText = sendImageToLLMServer(bitmap)
-                            if (resultText != null) {
-                                subtitleText = resultText
+                            // Offload both the image processing and network call
+                            val resultText =
+                                withContext(Dispatchers.Default) {
+                                    val base64Image = convertBitmapToBase64(bitmap)
+                                    sendImageToLLMServer(base64Image)
+                                }
+
+                            resultText?.let {
+                                subtitleText = it
                                 isSpeaking = true
-                                speakText(ttsRef.value!!, resultText) {
+                                speakText(ttsRef.value!!, it) {
                                     isSpeaking = false
                                 }
                             }
